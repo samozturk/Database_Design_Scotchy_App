@@ -40,9 +40,9 @@ CREATE TABLE Restaurants(
 
 CREATE TABLE Menus(
     MealID INT NOT NULL AUTO_INCREMENT,
-    RestaurantID INT NOT NULL,
+    RestaurantID INT NOT NULL, /* This is not neccesary but exists for computational concerns */
     MealName VARCHAR(255),
-    PRICE FLOAT DEFAULT 0.0,
+    Price FLOAT DEFAULT 0.0,
     PRIMARY KEY (MealID)
 );
 
@@ -107,5 +107,19 @@ INSERT INTO Drivers (DriverName, DriverSurname, DriverEmail, DriverPhone, Vehicl
 INSERT INTO Restaurants (RestaurantName, MealID, ResturantAddress, RestaurantLocation)
             VALUES('Meat Burger', '1', 'Maslak XYZ', POINT(53.0755381, 20.4378005));
 
+INSERT INTO Menus (RestaurantID, MealName, Price)
+            VALUES(1, 'Burger', 52.50);
+
+INSERT INTO Transactions (UserID)
+            VALUES (1),
+                   (1);
+
+INSERT INTO TransportOrder(UserID, DriverID, UserStartLocation, DestinationLocation, Cost,
+                           TransactionID, UserRating, DriverRating)
+            VALUES(1, 1, POINT(53.0755381, 20.4378005), POINT(59.0755381, 40.4378005), 78.90,
+                   1, 4, 5);
+
+INSERT INTO MealOrder (UserID, DriverID, RestaurantID, MealID, Quantity, TransactionID)
+            VALUES(1, 1, 1, 1, 4, 1);
 
 
