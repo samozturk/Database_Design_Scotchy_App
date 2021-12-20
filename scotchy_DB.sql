@@ -96,4 +96,16 @@ CREATE TABLE Transactions(
 /* ############### VALUE INSERTATION ############### */
 
 INSERT INTO Users (UserName, UserSurname, UserEmail, UserPhone, UserAddress)
-            VALUES('Samet', 'Ozturk', 'ozturksa21@itu.edu.tr', '+905398258347', 'Samatya, Istanbul')
+            VALUES('Samet', 'Ozturk', 'ozturksa21@itu.edu.tr', '+905398258347', 'Samatya, Istanbul');
+
+INSERT INTO Vehicles (VehicleID, VehicleLocation)
+            VALUES(POINT(50.0755381, 14.4378005));
+
+INSERT INTO Drivers (DriverName, DriverSurname, DriverEmail, DriverPhone, VehicleInfo, VehicleID)
+            VALUES('Ezgi', 'Deren', 'ezgi_deren@yahoo.com', '+904252352562', 'Honda CBR 250', '1');
+
+INSERT INTO Restaurants (RestaurantName, MealID, ResturantAddress, RestaurantLocation)
+            VALUES('Meat Burger', '1', 'Maslak XYZ', POINT(53.0755381, 20.4378005));
+
+
+
