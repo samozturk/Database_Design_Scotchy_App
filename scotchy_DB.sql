@@ -89,6 +89,7 @@ CREATE TABLE MealOrder(
 CREATE TABLE Transactions(
     TransactionID INT NOT NULL AUTO_INCREMENT,
     UserID INT NOT NULL,
+    AMOUNT FLOAT, /* Order may be cancelled so this can be null */
     PRIMARY KEY (TransactionID),
     FOREIGN KEY(UserID) REFERENCES Users(UserID)
 );
@@ -123,3 +124,10 @@ INSERT INTO MealOrder (UserID, DriverID, RestaurantID, MealID, Quantity, Transac
             VALUES(1, 1, 1, 1, 4, 1);
 
 
+/* ############### CREATING INDEXES ############### */
+
+CREATE INDEX idx_UserID
+ON Users (UserID);
+
+CREATE INDEX idx_DriverID
+ON Users (DriverID);
