@@ -1,0 +1,99 @@
+CREATE DATABASE Scotchy;
+
+/* ############### TABLE CREATION ############### */
+CREATE TABLE Users(
+    UserID INT NOT NULL AUTO_INCREMENT,
+    UserName VARCHAR(255),
+    UserSurname VARCHAR(255),
+    UserEmail VARCHAR(255) NOT NULL, /* User can not register without e-mail */
+    UserPhone VARCHAR(255),
+    UserAddress VARCHAR(255) NOT NULL, /* Order can not be delivered without address */
+    PRIMARY KEY (UserID)
+);
+
+CREATE TABLE Drivers(
+    DriverID INT NOT NULL AUTO_INCREMENT,
+    DriverName VARCHAR(255),
+    DriverSurname VARCHAR(255),
+    DriverEmail VARCHAR(255),
+    DriverPhone VARCHAR(255),
+    VehicleInfo VARCHAR(255),
+    VehicleID INT NOT NULL, /* Driver must have a vehicle */
+    PRIMARY KEY (DriverID),
+    FOREIGN KEY (VehicleID) REFERENCES Vehicles(VehicleID)
+);
+
+CREATE TABLE Vehicles(
+    VehicleID INT NOT NULL AUTO_INCREMENT,
+    VehicleLocation POINT,
+    PRIMARY KEY (VehicleID)
+);
+
+CREATE TABLE Restaurants(
+    RestaurantID INT NOT NULL AUTO_INCREMENT,
+    RestaurantName VARCHAR(255),
+    MealID VARCHAR(255) NOT NULL, /* Restaurant must have at least one menu to serve food*/
+    ResturantAddress VARCHAR(255) NOT NULL, /* Resturant must have an address to serve food */
+    RestaurantLocation POINT,
+    PRIMARY KEY (RestaurantID)
+);
+
+CREATE TABLE Menus(
+    MealID INT NOT NULL AUTO_INCREMENT,
+    RestaurantID INT NOT NULL,
+    MealName VARCHAR(255),
+    PRICE FLOAT DEFAULT 0.0,
+    PRIMARY KEY (MealID)
+);
+
+ALTER TABLE Restaurants ADD FOREIGN KEY (MealID) REFERENCES Menus(MealID);
+ALTER TABLE Menus ADD FOREIGN KEY (RestaurantID) REFERENCES Restaurants(RestaurantID);
+
+CREATE TABLE TransportOrder(
+    OrderID INT NOT NULL AUTO_INCREMENT,
+    UserID INT NOT NULL, /* User must be present for an order */
+    DriverID INT, /* Can be null, system may not be able to find available driver */
+    OrderTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, /* Warning! Timestamp data type only extends to year 2038 */
+    UserStartLocation POINT NOT NULL,
+    DestinationLocation POINT NOT NULL,
+    Cost FLOAT NOT NULL,
+    TransactionID INT NOT NULL,
+    UserRating TINYINT,
+    DriverRating TINYINT,
+    PRIMARY KEY (OrderID)
+    FOREIGN KEY (UserID) REFERENCES Users (UserID),
+    FOREIGN KEY (DriverID) REFERENCES Drivers (DriverID),
+    FOREIGN KEY (TransactionID) REFERENCES Transactions (TransactionID),
+    CHECK (UserRating BETWEEN 5 AND 0),
+    CHECK (DriverRating BETWEEN 5 AND 0)
+);
+
+
+CREATE TABLE MealOrder(
+    OrderID INT NOT NULL AUTO_INCREMENT,
+    UserID INT NOT NULL,
+    DriverID INT NOT NULL,
+    RestaurantID INT NOT NULL,
+    MealID INT NOT NULL, 
+    Quantity INT NOT NULL,
+    TransactionID INT, /* Can be null, order can be cancalled */
+    OrderTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, /* Warning! Timestamp data type only extends to 2038 */
+    PRIMARY KEY (OrderID),
+    FOREIGN KEY (UserID) REFERENCES Users(UserID),
+    FOREIGN KEY (DriverID) REFERENCES Drivers(DriverID),
+    FOREIGN KEY (RestaurantID) REFERENCES Restaurants(RestaurantID), 
+    FOREIGN KEY (TransactionID) REFERENCES Transactions(TransactionID),
+    CHECK (Quantity > 0)
+);
+
+CREATE TABLE Transactions(
+    TransactionID INT NOT NULL AUTO_INCREMENT,
+    UserID INT NOT NULL,
+    PRIMARY KEY (TransactionID),
+    FOREIGN KEY(UserID) REFERENCES Users(UserID)
+);
+
+/* ############### VALUE INSERTATION ############### */
+
+INSERT INTO Users (UserName, UserSurname, UserEmail, UserPhone, UserAddress)
+            VALUES('Samet', 'Ozturk', 'ozturksa21@itu.edu.tr', '+905398258347', 'Samatya, Istanbul')
