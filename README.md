@@ -1,7 +1,7 @@
 # Database_Design_Scotchy_App
 Database Design of Scotchy App
-![Screen Shot 2021-12-24 at 23.05.33.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/93134cb2-fff0-4c3b-b936-af38077bceee/Screen_Shot_2021-12-24_at_23.05.33.png)
 
+</br>
 Scotchy is a location based application. In this app, users can buy two kind services:
 
 1) Transportation
